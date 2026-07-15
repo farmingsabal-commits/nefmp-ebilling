@@ -3,11 +3,12 @@ using NEFMP.Ebilling.Domain.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Railway injects the port to bind via the PORT env var — the app must listen on it.
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-
 var app = builder.Build();
+
+// --------------------------------------------------------------------------
+// Root endpoint — welcome message
+// --------------------------------------------------------------------------
+app.MapGet("/", () => "NEFMP eBilling API is running 🚀");
 
 // --------------------------------------------------------------------------
 // Basic liveness check — always returns 200 if the process is up.
@@ -52,7 +53,8 @@ app.MapGet("/health/db", async () =>
 app.MapGet("/api/v1/meta/invoice-statuses", () =>
     Results.Ok(Enum.GetNames<InvoiceStatus>()));
 
-app.Run();
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+app.Run($"http://0.0.0.0:{port}");
 
 // Railway/most managed Postgres providers hand out a single DATABASE_URL in
 // the form: postgres://user:password@host:port/dbname
@@ -79,3 +81,4 @@ static string? BuildConnectionString()
 
     return builder.ConnectionString;
 }
+
