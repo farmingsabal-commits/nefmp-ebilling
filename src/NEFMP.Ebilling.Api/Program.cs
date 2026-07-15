@@ -8,7 +8,12 @@ var app = builder.Build();
 // --------------------------------------------------------------------------
 // Root endpoint — welcome message
 // --------------------------------------------------------------------------
-app.MapGet("/", () => "NEFMP eBilling API is running 🚀");
+app.MapGet("/", () => Results.Ok(new
+{
+    message = "NEFMP eBilling API is running 🚀",
+    service = "NEFMP e-Billing API",
+    timestampUtc = DateTimeOffset.UtcNow
+}));
 
 // --------------------------------------------------------------------------
 // Basic liveness check — always returns 200 if the process is up.
