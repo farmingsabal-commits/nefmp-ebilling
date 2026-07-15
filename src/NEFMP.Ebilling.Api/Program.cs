@@ -10,6 +10,11 @@ builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 var app = builder.Build();
 
 // --------------------------------------------------------------------------
+// Root endpoint — welcome message
+// --------------------------------------------------------------------------
+app.MapGet("/", () => "NEFMP eBilling API is running 🚀");
+
+// --------------------------------------------------------------------------
 // Basic liveness check — always returns 200 if the process is up.
 // Use this as Railway's health-check path.
 // --------------------------------------------------------------------------
@@ -79,3 +84,4 @@ static string? BuildConnectionString()
 
     return builder.ConnectionString;
 }
+
