@@ -2,6 +2,7 @@ using Npgsql;
 using NEFMP.Ebilling.Domain.Enums;
 using NEFMP.Ebilling.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using NEFMP.Ebilling.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 var app = builder.Build();
+
+// --------------------------------------------------------------------------
+// Run migrations on startup
+// --------------------------------------------------------------------------
+await MigrationHelper.RunMigrationsAsync(connectionString);
 
 // --------------------------------------------------------------------------
 // Root endpoint — welcome message
